@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broşür</title>
+<!-- WhatsApp/sosyal medyada link paylaşılınca sabit bir marka önizlemesi
+     çıksın diye. NOT: bu araca özel fotoğraf/fiyat gösteremiyor — o veri
+     linkin # kısmında taşınıyor ve WhatsApp'ın önizleme botu bu kısmı hiç
+     görmüyor (tarayıcı sunucuya göndermiyor). Araca özel önizleme için
+     ileride küçük bir sunucu eklenmesi gerekir. -->
+<meta property="og:title" content="MAN TopUsed — Araç Broşürü">
+<meta property="og:description" content="MAN TopUsed ikinci el araç broşürünü görüntülemek için tıklayın.">
+<meta property="og:image" content="logo-right.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1E33; --navy-2:#122A45; --red:#D91E36;
+    --paper:#F4F5F3; --steel:#5C6B7A; --line:#DADFE3; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  /* Chrome, chrome-extension:// sayfalarına kendi varsayılan stilini
+     (font-size:75%, sistem fontu) enjekte ediyor. Aynı özgüllükteki bu
+     enjeksiyon bizim kuralımızı ezebildiği için html/body'yi !important
+     ile kilitliyoruz — aksi halde broşür rastgele küçülüp yanlış fontla
+     açılabiliyor. */
+  html{font-size:16px !important;}
+  body{background:#E7EAEC !important; font-family:'Inter', sans-serif !important; font-size:16px !important; color:var(--navy); padding:24px 16px; display:flex; flex-direction:column; align-items:center;}
+  .toolbar{width:100%; max-width:800px; display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px;}
+  .lang-tabs{display:flex; gap:4px; background:#fff; border:1px solid var(--line); border-radius:6px; padding:3px;}
+  .lang-tabs button{background:transparent; color:var(--steel); border:none; border-radius:4px; padding:6px 14px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:13px; cursor:pointer;}
+  .lang-tabs button.active{background:var(--navy); color:#fff;}
+  .toolbar-actions{display:flex; gap:10px;}
+  .toolbar-actions button{background:var(--red); color:#fff; border:none; border-radius:4px; padding:10px 18px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:14px; cursor:pointer;}
+  .toolbar-actions button.secondary{background:var(--navy); }
+  .sheet{width:100%; max-width:800px; background:var(--white); border-radius:4px; overflow:hidden; box-shadow:0 20px 60px -20px rgba(11,30,51,0.35);}
+  header{background:var(--navy); background-image:radial-gradient(circle at 88% -10%, rgba(217,30,54,0.35), transparent 45%); color:#fff; padding:16px 28px; display:flex; justify-content:space-between; align-items:center; gap:16px;}
+  .logo-left{height:38px; width:auto; object-fit:contain; flex-shrink:0; border-radius:20px;}
+  .header-mid{flex:1; min-width:0; padding:0 16px;}
+  h1{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:24px; line-height:1.1; word-break:break-word; text-align:center;}
+  .header-right{display:flex; flex-direction:column; align-items:flex-end; gap:6px; flex-shrink:0;}
+  .logo-right{height:38px; width:auto; object-fit:contain;}
+  .listing-no{text-align:right; font-size:11px; color:#7E90A3;}
+  .listing-no b{color:#fff; display:block; font-size:12px; margin-bottom:2px;}
+  .listing-no a{color:#FF8CA0; text-decoration:none; font-weight:600; white-space:nowrap;}
+  .listing-no a:hover{text-decoration:underline;}
+  .hero-strip{height:5px; background:linear-gradient(90deg, var(--red) 0%, var(--red) 33%, var(--navy-2) 33%, var(--navy-2) 100%);}
+
+  .gallery{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:14px 28px 0;}
+  .gallery .photo{position:relative; margin:0; cursor:pointer; border-radius:5px; overflow:hidden; background:#DADFE3;}
+  .gallery .photo img{width:100%; height:135px; object-fit:cover; display:block; transition:transform .15s ease;}
+  .gallery .photo:hover img{transform:scale(1.04);}
+  .gallery .photo:hover::after{content: attr(data-hint); position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(11,30,51,0.45); color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:12px; letter-spacing:0.03em; text-align:center; padding:0 8px;}
+  .gallery .photo figcaption{position:absolute; top:6px; right:6px; margin:0;}
+  .gallery .photo figcaption .counter{font-family:'Inter',sans-serif; font-weight:600; font-size:10px; color:#fff; background:rgba(11,30,51,0.65); border-radius:10px; padding:2px 7px;}
+  @media (max-width:700px){ .gallery{grid-template-columns:repeat(2,1fr);} .gallery .photo img{height:160px;} }
+
+  .body-grid{padding:16px 28px 4px;}
+  .price-card{background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:14px 18px; display:flex; flex-wrap:wrap; gap:24px; align-items:center;}
+  .price-col{flex:1; min-width:180px;}
+  .qr-col{flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:4px;}
+  .qr-col svg{width:64px; height:64px; background:#fff; border:1px solid var(--line); border-radius:4px; padding:3px;}
+  .qr-col span{font-size:9px; color:var(--steel); text-align:center; letter-spacing:0.03em; max-width:70px;}
+  .price-card .label{font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:4px;}
+  .price-main{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:26px; color:var(--navy); line-height:1;}
+  .vat-tag{display:inline-block; vertical-align:middle; font-family:'Inter',sans-serif; font-weight:600; font-size:10px; letter-spacing:0.04em; color:#fff; background:var(--red); border-radius:3px; padding:2px 7px; margin-left:6px;}
+  .price-sub{font-size:12px; color:var(--steel); margin-top:4px;}
+  .fx-note{font-size:10px; color:#9AA6B1; margin-top:8px;}
+
+  .specs{padding:4px 28px 4px;}
+  .specs h2{font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--steel); padding-bottom:6px; border-bottom:2px solid var(--navy); margin-bottom:10px;}
+  .spec-grid{display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line); border-left:1px solid var(--line);}
+  .spec{border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:8px 10px;}
+  .spec .k{font-size:9px; text-transform:uppercase; letter-spacing:0.06em; color:var(--steel); margin-bottom:3px;}
+  .spec .v{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:14px; color:var(--navy); word-break:break-word;}
+  @media (max-width:560px){ .spec-grid{grid-template-columns:repeat(2,1fr);} }
+
+  .footer-strip{display:block; width:100%; height:auto; margin-top:14px;}
+
+  .empty{max-width:800px; text-align:center; color:var(--steel); padding:60px 20px; font-size:14px;}
+
+  @page{ size: A4; margin: 10mm; }
+
+  @media print{
+    .toolbar{display:none;}
+    html, body{background:#fff !important; padding:0 !important; margin:0 !important; display:block !important;}
+    .sheet{width:190mm; max-width:190mm; margin:0 auto; box-shadow:none;}
+    header{padding:6mm 8mm;}
+    .logo-left{height:11mm;}
+    .header-mid{padding:0 6mm;}
+    h1{font-size:16pt;}
+    .logo-right{height:13mm;}
+    .listing-no{font-size:8pt;}
+    .listing-no b{font-size:9pt;}
+    .hero-strip{height:1.5mm;}
+    .gallery{padding:5mm 8mm 0; gap:3mm;}
+    .gallery .photo img{height:48mm;}
+    .gallery .photo:hover img{transform:none;}
+    .gallery .photo:hover::after{content:none;}
+    .gallery .photo figcaption{display:none;}
+    .body-grid{padding:6mm 8mm 2mm;}
+    .price-card{padding:6mm 8mm; gap:10mm;}
+    .qr-col svg{width:16mm; height:16mm;}
+    .qr-col span{font-size:6pt;}
+    .price-card .label{font-size:7.5pt;}
+    .price-main{font-size:19pt;}
+    .vat-tag{font-size:7.5pt; padding:1.5pt 5pt;}
+    .price-sub{font-size:9pt;}
+    .fx-note{font-size:7pt; margin-top:5mm;}
+    .specs{padding:2mm 8mm 2mm;}
+    .specs h2{font-size:9pt; padding-bottom:2mm; margin-bottom:3mm;}
+    .spec{padding:3mm 4mm;}
+    .spec .k{font-size:7pt;}
+    .spec .v{font-size:11pt;}
+    .footer-strip{margin-top:5mm;}
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="qrcode.js"></script>
+<script src="i18n.js"></script>
+<script src="generator.js"></script>
+</body>
+</html>
