@@ -1,0 +1,35 @@
+name: Kur güncelle
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # her gün 06:00 UTC (TR saatiyle ~09:00) civarı
+  workflow_dispatch: {}     # istersen Actions sekmesinden elle de tetikleyebilirsin
+
+permissions:
+  contents: write
+
+jobs:
+  update-kur:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Güncel EUR/TRY kurunu çek
+        run: |
+          curl -sSf "https://api.frankfurter.app/latest?from=TRY&to=EUR" -o rate.json
+          python3 -c "
+import json
+data = json.load(open('rate.json'))
+eur = round(1 / data['rates']['EUR'], 4)
+out = {'eur': eur, 'date': data['date']}
+json.dump(out, open('kur.json', 'w'), ensure_ascii=False)
+print(out)
+"
+
+      - name: Değişikliği kaydet
+        run: |
+          git config user.name "kur-bot"
+          git config user.email "kur-bot@users.noreply.github.com"
+          git add kur.json
+          git diff --cached --quiet || git commit -m "Kur güncellendi: $(date -u +%Y-%m-%d)"
+          git push
