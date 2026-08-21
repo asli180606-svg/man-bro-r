@@ -14,17 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Güncel EUR/TRY kurunu çek
+      - name: Güncel EUR/TRY kurunu çek ve kur.json'u yaz
         run: |
           curl -sSf "https://api.frankfurter.app/latest?from=TRY&to=EUR" -o rate.json
-          python3 -c "
-import json
-data = json.load(open('rate.json'))
-eur = round(1 / data['rates']['EUR'], 4)
-out = {'eur': eur, 'date': data['date']}
-json.dump(out, open('kur.json', 'w'), ensure_ascii=False)
-print(out)
-"
+          python3 -c "import json; data=json.load(open('rate.json')); eur=round(1/data['rates']['EUR'],4); out={'eur':eur,'date':data['date']}; json.dump(out, open('kur.json','w'), ensure_ascii=False); print(out)"
 
       - name: Değişikliği kaydet
         run: |
